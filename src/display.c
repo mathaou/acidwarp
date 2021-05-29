@@ -4,10 +4,8 @@
  * Ported to SDL by Boris Gjenero
  */
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
-#include <SDL.h>
+#include <SDL-1.2/include/SDL.h>
 #ifdef WITH_GL
 #undef WITH_GLES
 #undef WITH_GLEW
@@ -27,7 +25,6 @@
 #endif
 #endif
 
-#include "handy.h"
 #include "acidwarp.h"
 #include "display.h"
 
@@ -86,14 +83,14 @@ const GLchar fragment[] =
 #else /* !WITH_GL */
 static SDL_Surface *screen = NULL, *out_surf = NULL;
 #ifdef ENABLE_THREADS
-static UCHAR *out_buf = NULL;
+static uint8_t *out_buf = NULL;
 static SDL_Surface *draw_surf = NULL;
 #else /* !ENABLE_THREADS */
 #define draw_surf out_surf
 #endif /* !ENABLE_THREADS */
 static int disp_DrawingOnSurface;
 #endif /* !WITH_GL */
-static UCHAR *draw_buf = NULL;
+static uint8_t *draw_buf = NULL;
 
 #ifdef HAVE_PALETTE
 static int disp_UsePalette;
@@ -179,7 +176,7 @@ void disp_setPalette(unsigned char *palette)
 #endif /* !WITH_GL */
 }
 
-void disp_beginUpdate(UCHAR **p, unsigned int *pitch,
+void disp_beginUpdate(uint8_t **p, unsigned int *pitch,
                       unsigned int *w, unsigned int *h)
 {
 #ifndef WITH_GL
@@ -277,7 +274,7 @@ void disp_swapBuffers(void)
   if (!disp_DrawingOnSurface) {
 #ifdef ENABLE_THREADS
     {
-      UCHAR *temp = draw_buf;
+      uint8_t *temp = draw_buf;
       draw_buf = out_buf;
       out_buf = temp;
     }
@@ -358,7 +355,7 @@ static void disp_processKey(
 #ifndef EMSCRIPTEN
     case SDLK_c:
     case SDLK_PAUSE:
-      if ((keymod & KMOD_CTRL) == 0) break; /* else like SDLK_q */
+        if ((keymod & KMOD_CTRL) == 0) break;
     case SDLK_q: handleinput(CMD_QUIT); break;
 #endif
     case SDLK_k: handleinput(CMD_NEWPAL); break;
@@ -434,10 +431,10 @@ void disp_processInput(void) {
           }
 #else
           // Earlier SDL versions don't report double clicks
-          static Uint32 dblclicktm = 0;
-          Uint32 clicktime = SDL_GetTicks();
+          static uint32_t dblclicktm = 0;
+          uint32_t clicktime = SDL_GetTicks();
           // Like !SDL_TICKS_PASSED(), which may not be available
-          if ((Sint32)(dblclicktm - clicktime) > 0) {
+          if ((int32_t)(dblclicktm - clicktime) > 0) {
             disp_toggleFullscreen();
           }
           dblclicktm = clicktime + 200;
@@ -585,7 +582,7 @@ static void disp_setIcon(void)
 }
 #endif /* ADDICON */
 
-static void disp_freeBuffer(UCHAR **buf)
+static void disp_freeBuffer(uint8_t **buf)
 {
   if (*buf != NULL) {
     free(*buf);
@@ -593,7 +590,7 @@ static void disp_freeBuffer(UCHAR **buf)
   }
 }
 
-static void disp_reallocBuffer(UCHAR **buf)
+static void disp_reallocBuffer(uint8_t **buf)
 {
   disp_freeBuffer(buf);
   *buf = calloc(width * height, 1);

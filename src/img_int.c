@@ -4,7 +4,6 @@
  * Ported to SDL by Boris Gjenero
  */
 
-#include "handy.h"
 #include "acidwarp.h"
 #include "lut.h"
 

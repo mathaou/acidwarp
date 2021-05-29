@@ -4,9 +4,8 @@
  * Ported to SDL by Boris Gjenero
  */
 
-#include <SDL.h>
+#include <SDL-1.2/include/SDL.h>
 
-#include "handy.h"
 #include "acidwarp.h"
 #include "bit_map.h"
 #include "display.h"
@@ -30,7 +29,7 @@ static int draw_first = 0;
 #endif /* !ENABLE_THREADS */
 
 static void draw(int which) {
-  UCHAR *buf_graf;
+  uint8_t *buf_graf;
   unsigned int buf_graf_stride, width, height;
   disp_beginUpdate(&buf_graf, &buf_graf_stride, &width, &height);
   if (which < 0) {

@@ -1,3 +1,15 @@
+/**
+ * @file lut.h
+ * @brief Lookup tables and some helpful math macros.
+ *
+ * @attention ACID WARP &copy; (c) Copyright 1992, 1993 by Noah Spurrier
+ *
+ * All Rights reserved. Private Proprietary Source Code by Noah Spurrier <br/>
+ * Ported to Linux by Steven Wills <br/>
+ * Ported to SDL by Boris Gjenero <br/>
+ * Organized by Matt Farstad
+ */
+
 #ifndef __LUT
 #define __LUT 1
 

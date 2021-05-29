@@ -1,7 +1,6 @@
 #include <string.h>
-#include <emscripten.h>
+#include <emscripten/system/include/emscripten.h>
 
-#include "handy.h"
 #include "bit_map.h"
 #include "acidwarp.h"
 #include "worker.h"
@@ -17,7 +16,7 @@ static void draw(char *data, int size)
 {
   static worker_param param = { 0 };
   worker_param newparam;
-  static UCHAR *buf_graf = NULL;
+  static uint8_t *buf_graf = NULL;
   static unsigned int res_size = 0;
   int which, redraw = 0;
 

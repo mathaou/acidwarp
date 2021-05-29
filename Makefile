@@ -1,7 +1,7 @@
 PREFIX := /usr/local
-CFLAGS := -O3 -Wall -Wmissing-prototypes
-SOURCES := acidwarp.c palinit.c rolnfade.c display.c
-IMGGEN_SOURCES := bit_map.c lut.c img_int.c img_float.c
+CFLAGS := -O3 -Wall -Wmissing-prototypes -I ./inc
+SOURCES := ./src/acidwarp.c ./src/palinit.c ./src/rolnfade.c ./src/display.c ./src/handy.c
+IMGGEN_SOURCES := ./src/bit_map.c ./src/lut.c ./src/img_int.c ./src/img_float.c
 OBJECTS = $(SOURCES:%.c=%.o)
 
 ifeq ($(GL),1)
@@ -44,13 +44,13 @@ LDFLAGS := $(CFLAGS) --shell-file template.html -s TOTAL_MEMORY=33554432
 
 else
 
-SOURCES += $(IMGGEN_SOURCES) draw.c
+SOURCES += $(IMGGEN_SOURCES) ./src/draw.c
 
 CONVERTEXISTS := $(shell command -v convert > /dev/null 2>&1 && \
                    convert -version 2> /dev/null | grep ImageMagick)
 ifdef CONVERTEXISTS
 CFLAGS += -DADDICON
-SOURCES += acid_ico.c
+SOURCES += ./src/acid_ico.c
 endif
 
 CFLAGS += $(shell $(SDL_CONFIG) --cflags)
@@ -83,18 +83,19 @@ $(TARGET): $(OBJECTS)
 	@rm -f $(TARGET)
 	$(LINK) $(LDFLAGS) $(OBJECTS) -o $@ $(LIBS)
 
-acid_ico.o: acid_ico.c
-acidwarp.o: acidwarp.c handy.h acidwarp.h rolnfade.h display.h warp_text.c
-bit_map.o: bit_map.c handy.h bit_map.h
-display.o: display.c handy.h acidwarp.h display.h
-draw.o: draw.c handy.h acidwarp.h bit_map.h display.h
-img_float.o: img_float.c handy.h acidwarp.h gen_img.c
-img_int.o: img_int.c handy.h acidwarp.h lut.h gen_img.c
-lut.o: lut.c handy.h lut.h
-palinit.o: palinit.c handy.h acidwarp.h palinit.h
-rolnfade.o: rolnfade.c handy.h acidwarp.h rolnfade.h palinit.h display.h
-useworker.o: useworker.c handy.h bit_map.h acidwarp.h worker.h display.h
-worker.o: worker.c handy.h bit_map.h acidwarp.h worker.h
+acid_ico.o: ./src/acid_ico.c
+handy.o: ./src/handy.c ./inc/handy.h
+acidwarp.o: ./src/acidwarp.c ./inc/handy.h ./inc/acidwarp.h ./inc/rolnfade.h ./inc/display.h
+bit_map.o: ./src/bit_map.c ./inc/handy.h ./inc/bit_map.h
+display.o: ./src/display.c ./inc/acidwarp.h ./inc/display.h
+draw.o: ./src/draw.c ./inc/acidwarp.h ./inc/bit_map.h ./inc/display.h
+img_float.o: ./src/img_float.c ./inc/acidwarp.h ./src/gen_img.c
+img_int.o: ./src/img_int.c ./inc/acidwarp.h ./inc/lut.h ./src/gen_img.c
+lut.o: ./src/lut.c ./inc/handy.h ./inc/lut.h
+palinit.o: ./src/palinit.c ./inc/acidwarp.h ./inc/palinit.h
+rolnfade.o: ./src/rolnfade.c ./inc/acidwarp.h ./inc/rolnfade.h ./inc/palinit.h ./inc/display.h
+useworker.o: ./src/useworker.c ./inc/bit_map.h ./inc/acidwarp.h ./inc/worker.h ./inc/display.h
+worker.o: ./src/worker.c ./inc/bit_map.h ./inc/acidwarp.h ./inc/worker.h
 ifneq (,$(findstring CYGWIN,$(PLATFORM)))
 acidwarp.ico: acidwarp.png
 	icotool -c -o $@ $^

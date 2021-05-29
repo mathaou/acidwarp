@@ -1,6 +1,5 @@
 /* Bit_Map Image Uncompressor (C)Copyright 1992 by Noah Spurrier	*/
 
-#include <stdlib.h>
 #include "handy.h"
 #include "bit_map.h"
 
@@ -11,7 +10,7 @@
  *                                    4     1
  */
 
-static UCHAR TITLE_DATA [(X_TITLE * Y_TITLE / 4)] =
+uint8_t TITLE_DATA [(X_TITLE * Y_TITLE / 4)] =
 { 
 	 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85,
 	 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85,
@@ -118,7 +117,7 @@ static UCHAR TITLE_DATA [(X_TITLE * Y_TITLE / 4)] =
  * appropriate for the current palette. See 'switch (bits)' below.
  */
 
-static void bit_map_uncompress (UCHAR *buf_graf, UCHAR *bit_data,
+void bit_map_uncompress (uint8_t* buf_graf, uint8_t* bit_data,
                                 int x_map, int y_map,
                                 int xmax, int ymax, int xsize)
 {
@@ -199,38 +198,38 @@ static void bit_map_uncompress (UCHAR *buf_graf, UCHAR *bit_data,
 			}
 */
 				case 0 :
-          *(buf_graf + xsize * (y+0) + (x+0)) = (UCHAR)RANDOM(8) + 192 + 0;
-          *(buf_graf + xsize * (y+1) + (x+0)) = (UCHAR)RANDOM(8) + 192 + 0;
-          *(buf_graf + xsize * (y+0) + (x+1)) = (UCHAR)RANDOM(8) + 192 + 0;
-          *(buf_graf + xsize * (y+1) + (x+1)) = (UCHAR)RANDOM(8) + 192 + 0;
+          *(buf_graf + xsize * (y+0) + (x+0)) = (uint8_t)RANDOM(8) + 192 + 0;
+          *(buf_graf + xsize * (y+1) + (x+0)) = (uint8_t)RANDOM(8) + 192 + 0;
+          *(buf_graf + xsize * (y+0) + (x+1)) = (uint8_t)RANDOM(8) + 192 + 0;
+          *(buf_graf + xsize * (y+1) + (x+1)) = (uint8_t)RANDOM(8) + 192 + 0;
 				break;
 
 				case 1 :
-          *(buf_graf + xsize * (y+0) + (x+0)) = (UCHAR)RANDOM(8) + 192 + 9;
-          *(buf_graf + xsize * (y+1) + (x+0)) = (UCHAR)RANDOM(8) + 192 + 9;
-          *(buf_graf + xsize * (y+0) + (x+1)) = (UCHAR)RANDOM(8) + 192 + 9;
-          *(buf_graf + xsize * (y+1) + (x+1)) = (UCHAR)RANDOM(8) + 192 + 9;
+          *(buf_graf + xsize * (y+0) + (x+0)) = (uint8_t)RANDOM(8) + 192 + 9;
+          *(buf_graf + xsize * (y+1) + (x+0)) = (uint8_t)RANDOM(8) + 192 + 9;
+          *(buf_graf + xsize * (y+0) + (x+1)) = (uint8_t)RANDOM(8) + 192 + 9;
+          *(buf_graf + xsize * (y+1) + (x+1)) = (uint8_t)RANDOM(8) + 192 + 9;
 				break;
 
 				case 2 :
-          *(buf_graf + xsize * (y+0) + (x+0)) = (UCHAR)RANDOM(8) + 192 + 17;
-          *(buf_graf + xsize * (y+1) + (x+0)) = (UCHAR)RANDOM(8) + 192 + 17;
-          *(buf_graf + xsize * (y+0) + (x+1)) = (UCHAR)RANDOM(8) + 192 + 17;
-          *(buf_graf + xsize * (y+1) + (x+1)) = (UCHAR)RANDOM(8) + 192 + 17;
+          *(buf_graf + xsize * (y+0) + (x+0)) = (uint8_t)RANDOM(8) + 192 + 17;
+          *(buf_graf + xsize * (y+1) + (x+0)) = (uint8_t)RANDOM(8) + 192 + 17;
+          *(buf_graf + xsize * (y+0) + (x+1)) = (uint8_t)RANDOM(8) + 192 + 17;
+          *(buf_graf + xsize * (y+1) + (x+1)) = (uint8_t)RANDOM(8) + 192 + 17;
 				break;
 
 				case 3 :
-          *(buf_graf + xsize * (y+0) + (x+0)) = (UCHAR)RANDOM(8) + 192 + 25;
-          *(buf_graf + xsize * (y+1) + (x+0)) = (UCHAR)RANDOM(8) + 192 + 25;
-          *(buf_graf + xsize * (y+0) + (x+1)) = (UCHAR)RANDOM(8) + 192 + 25;
-          *(buf_graf + xsize * (y+1) + (x+1)) = (UCHAR)RANDOM(8) + 192 + 25;
+          *(buf_graf + xsize * (y+0) + (x+0)) = (uint8_t)RANDOM(8) + 192 + 25;
+          *(buf_graf + xsize * (y+1) + (x+0)) = (uint8_t)RANDOM(8) + 192 + 25;
+          *(buf_graf + xsize * (y+0) + (x+1)) = (uint8_t)RANDOM(8) + 192 + 25;
+          *(buf_graf + xsize * (y+1) + (x+1)) = (uint8_t)RANDOM(8) + 192 + 25;
 				break;
 			}
 		}
 	}
 }
 
-void writeBitmapImageToArray (UCHAR *buf_graf, int image_number,
+void writeBitmapImageToArray (uint8_t *buf_graf, int image_number,
                               int xmax, int ymax, int stride)
 {
 	switch (image_number)

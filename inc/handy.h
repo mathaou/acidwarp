@@ -1,5 +1,26 @@
+#ifndef HANDY_H_
+#define HANDY_H_
+
+/**
+ * @file handy.h
+ * @brief Handy stuff.
+ *
+ * @attention ACID WARP &copy; (c) Copyright 1992, 1993 by Noah Spurrier
+ *
+ * All Rights reserved. Private Proprietary Source Code by Noah Spurrier <br/>
+ * Ported to Linux by Steven Wills <br/>
+ * Ported to SDL by Boris Gjenero <br/>
+ * Organized by Matt Farstad
+ */
+
 #ifndef __HANDY
 #define __HANDY 1
+
+/* Random number stuff that SHOULD have been there */
+#include <time.h>
+#include <stdint.h>
+#include <stdio.h> /* Needed for NULL * */
+#include <stdlib.h>
 
 /* Two new control structures for C. Yay! */
 #define loop      for (;;)
@@ -8,26 +29,13 @@
 #define until(a)  while (!(a))
 
 /* Some basic data types */
-/* typedef unsigned char   CHAR; Is this a typo */
-typedef unsigned char   UCHAR;
-typedef unsigned int    UINT;
-typedef unsigned long   ULONG;
 typedef enum {FALSE, TRUE} BOOL;
 
-/* Random number stuff that SHOULD have been there */
-#include <time.h>
-#include <stdio.h> /* Needed for NULL * */
-#include <stdlib.h>
-#define RANDOMIZE() (srand((UINT)time( (time_t *)NULL )))
+#define RANDOMIZE() (srand((uint8_t)time( (time_t *)NULL )))
 /* This is skewed due to integer division, but
  * good enough when a is much smaller than RAND_MAX.
  */
 #define RANDOM(a) (rand() / (RAND_MAX / (a) + 1))
-
-/* Mini-benchmarking tools. Only one second accuracy */
-time_t __HANDY_BENCH;
-#define START() (__HANDY_BENCH = time (& __HANDY_BENCH))
-#define MARK()  ((long)time ((time_t *)0) - __HANDY_BENCH)
 
 /* Stuff that's already there, but is faster as a MACRO */
 #define MIN(a,b)  (((a) < (b)) ?  (a) : (b) )
@@ -42,7 +50,10 @@ time_t __HANDY_BENCH;
 #define DSIGN(a)  (((a) < 0.0) ? -1.0 : 1.0 )
 
 /* This seems nifty to me */
-#define DONE        1
+#define DONE            1
 #define NOT_DONE		0
 
+void makeShuffledList(int *list, int listSize);
+
+#endif
 #endif

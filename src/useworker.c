@@ -1,7 +1,6 @@
 #include <string.h>
-#include <emscripten.h>
+#include <emscripten/system/include/emscripten.h>
 
-#include "handy.h"
 #include "bit_map.h"
 #include "acidwarp.h"
 #include "worker.h"
@@ -12,7 +11,7 @@ static int imageFuncListIndex=0;
 
 static worker_param wpar;
 static worker_handle worker;
-static UCHAR *buf_graf;
+static uint8_t *buf_graf;
 unsigned int buf_graf_stride;
 
 void draw_init(int draw_flags) {
@@ -34,7 +33,7 @@ static void worker_callback(char *data, int size, void *arg)
   } else {
     int i;
     char *inp = data;
-    UCHAR *outp = buf_graf;
+    uint8_t *outp = buf_graf;
     for (i = 0; i < wpar.height; i++) {
       memcpy(outp, inp, wpar.width);
       inp += wpar.width;

@@ -5,12 +5,12 @@
  */
 
 #ifdef ENABLE_FLOAT
-void generate_image_float(int imageFuncNum, UCHAR *buf_graf,
+void generate_image_float(int imageFuncNum, uint8_t *buf_graf,
                           int _xcenter, int _ycenter,
                           int _width, int _height,
                           int colors, int pitch, int normalize)
 #else
-void generate_image(int imageFuncNum, UCHAR *buf_graf,
+void generate_image(int imageFuncNum, uint8_t *buf_graf,
                     int xcenter, int ycenter,
                     int width, int height,
                     int colors, int pitch)
@@ -417,7 +417,7 @@ long x1,x2,x3,x4,y1,y2,y3,y4;
           ++_color;
           /* color 0 is never used, so all colors are from 1 through 255 */
 
-          *(buf_graf + (pitch * _y) + _x) = (UCHAR)_color;
+          *(buf_graf + (pitch * _y) + _x) = (uint8_t)_color;
           /* Store the color in the buffer */
         }
       /* end for (y = 0; y < height; ++y)        */
