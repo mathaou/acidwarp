@@ -15,11 +15,8 @@ worker.js
 worker.js.mem
 /bin
 /build
-
+.cproject
 .settings/
-
 .project
-
 html/
-
 *.sh
