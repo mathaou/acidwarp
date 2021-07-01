@@ -9,7 +9,6 @@ test_tables.exe
 stdout.txt
 stderr.txt
 acidwarp.ico
-acid_ico.c
 acidwarp.rgb
 worker.js
 worker.js.mem
@@ -20,3 +19,4 @@ worker.js.mem
 .project
 html/
 *.sh
+.vscode

@@ -19,11 +19,11 @@ void makeShuffledList(int *list, int listSize)
     list[entryNum] = -1;
 
   for (entryNum = 0; entryNum < listSize; ++entryNum)
-    {
-      do
-        r = RANDOM(listSize);
-      while (list[r] != -1);
+  {
+    do
+      r = RANDOM(listSize);
+    while (list[r] != -1);
 
-      list[r] = entryNum;
-    }
+    list[r] = entryNum;
+  }
 }

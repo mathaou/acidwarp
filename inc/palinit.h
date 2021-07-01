@@ -1,3 +1,6 @@
+#ifndef WORKER_H_
+#define WORKER_H_
+
 /**
  * @file palint.h
  * @brief No clue.
@@ -10,4 +13,6 @@
  * Organized by Matt Farstad
  */
 
-void initPalArray (uint8_t *palArray, int pal_type);
+void initPalArray(uint8_t *palArray, int pal_type);
+
+#endif

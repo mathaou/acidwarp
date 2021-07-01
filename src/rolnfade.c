@@ -8,87 +8,84 @@
 
 static int RedRollDirection = 0, GrnRollDirection = 0, BluRollDirection = 0;
 static uint8_t FadeCompleteFlag = 0;
-static uint8_t MainPalArray [256 * 3];
-static uint8_t TargetPalArray [256 * 3];
+static uint8_t MainPalArray[256 * 3];
+static uint8_t TargetPalArray[256 * 3];
 static int paletteTypeNum = 0;
 static int fade_dir = TRUE;
 
-void roll_rgb_palArray (uint8_t *MainpalArray);
+void roll_rgb_palArray(uint8_t *MainpalArray);
 void maybeInvertSubPalRollDirection(void);
-static int fadePalArrayToWhite (uint8_t *MainpalArray);
-static int fadePalArrayToBlack (uint8_t *MainpalArray);
-static int fadePalArrayToTarget (uint8_t *palArrayBeingChanged,
-                                 uint8_t *targetPalArray);
+static int fadePalArrayToWhite(uint8_t *MainpalArray);
+static int fadePalArrayToBlack(uint8_t *MainpalArray);
+static int fadePalArrayToTarget(uint8_t *palArrayBeingChanged,
+                                uint8_t *targetPalArray);
 
 void rotatebackward(int color, uint8_t *Pal)
 {
   int temp;
   int x;
-  
-  temp = Pal[((254)*3)+3+color];
 
-  for(x=(254); x >= 1; --x)
-    Pal[(x*3)+3+color] = Pal[(x*3)+color];
-  Pal[(1*3)+color] = temp; 
-  
+  temp = Pal[((254) * 3) + 3 + color];
+
+  for (x = (254); x >= 1; --x)
+    Pal[(x * 3) + 3 + color] = Pal[(x * 3) + color];
+  Pal[(1 * 3) + color] = temp;
 }
 
 void rotateforward(int color, uint8_t *Pal)
-{  
+{
   int temp;
   int x;
-  
-  temp = Pal[(1*3)+color];
-  for(x=1; x < (256) ; ++x)
-    Pal[x*3+color] = Pal[(x*3)+3+color]; 
-  Pal[((256)*3)-3+color] = temp;
-}
 
+  temp = Pal[(1 * 3) + color];
+  for (x = 1; x < (256); ++x)
+    Pal[x * 3 + color] = Pal[(x * 3) + 3 + color];
+  Pal[((256) * 3) - 3 + color] = temp;
+}
 
 void rollMainPalArrayAndLoadDACRegs(uint8_t *MainPalArray)
 {
-        maybeInvertSubPalRollDirection();
-        roll_rgb_palArray(MainPalArray);
-		disp_setPalette(MainPalArray);
+  maybeInvertSubPalRollDirection();
+  roll_rgb_palArray(MainPalArray);
+  disp_setPalette(MainPalArray);
 }
-
 
 void rolNFadeWhtMainPalArrayNLoadDAC(uint8_t *MainPalArray)
 {
-/* Fade to white, and keep the palette rolling while the fade is in progress.	*/
-	if (!FadeCompleteFlag)
-	{
-		if (fadePalArrayToWhite(MainPalArray) == DONE)
-			FadeCompleteFlag = 1;
-                rollMainPalArrayAndLoadDACRegs(MainPalArray);
-	}
+  /* Fade to white, and keep the palette rolling while the fade is in progress.	*/
+  if (!FadeCompleteFlag)
+  {
+    if (fadePalArrayToWhite(MainPalArray) == DONE)
+      FadeCompleteFlag = 1;
+    rollMainPalArrayAndLoadDACRegs(MainPalArray);
+  }
 }
 
 void rolNFadeBlkMainPalArrayNLoadDAC(uint8_t *MainPalArray)
 {
-/* Fade to black, and keep the palette rolling while the fade is in progress.   */
-	if (!FadeCompleteFlag)
-	{
-		if (fadePalArrayToBlack (MainPalArray) == DONE)
-			FadeCompleteFlag = 1;
-                rollMainPalArrayAndLoadDACRegs(MainPalArray);
-	}
+  /* Fade to black, and keep the palette rolling while the fade is in progress.   */
+  if (!FadeCompleteFlag)
+  {
+    if (fadePalArrayToBlack(MainPalArray) == DONE)
+      FadeCompleteFlag = 1;
+    rollMainPalArrayAndLoadDACRegs(MainPalArray);
+  }
 }
 
 void rolNFadeMainPalAryToTargNLodDAC(uint8_t *MainPalArray, uint8_t *TargetPalArray)
 {
-/* Fade from one palette to a new palette, and keep the palette rolling while the fade is in progress.	*/
-	if (!FadeCompleteFlag)
-	{
-		if (fadePalArrayToTarget (MainPalArray, TargetPalArray) == DONE)
-			FadeCompleteFlag = 1;
+  /* Fade from one palette to a new palette, and keep the palette rolling while the fade is in progress.	*/
+  if (!FadeCompleteFlag)
+  {
+    if (fadePalArrayToTarget(MainPalArray, TargetPalArray) == DONE)
+      FadeCompleteFlag = 1;
 
-		maybeInvertSubPalRollDirection();
-		roll_rgb_palArray (  MainPalArray);
-		roll_rgb_palArray (TargetPalArray);
-		disp_setPalette(MainPalArray);
-	}
-	else
+    maybeInvertSubPalRollDirection();
+    roll_rgb_palArray(MainPalArray);
+    roll_rgb_palArray(TargetPalArray);
+    disp_setPalette(MainPalArray);
+  }
+  else
     rollMainPalArrayAndLoadDACRegs(MainPalArray);
 }
 
@@ -99,15 +96,15 @@ void rolNFadeMainPalAryToTargNLodDAC(uint8_t *MainPalArray, uint8_t *TargetPalAr
 */
 
 void rolNFadMainPalAry2RndTargNLdDAC(uint8_t *MainPalArray,
-                                            uint8_t *TargetPalArray)
+                                     uint8_t *TargetPalArray)
 {
-	if (fadePalArrayToTarget (MainPalArray, TargetPalArray) == DONE)
-         initPalArray (TargetPalArray, RANDOM (NUM_PALETTE_TYPES));
+  if (fadePalArrayToTarget(MainPalArray, TargetPalArray) == DONE)
+    initPalArray(TargetPalArray, RANDOM(NUM_PALETTE_TYPES));
 
-	maybeInvertSubPalRollDirection();
-	roll_rgb_palArray (  MainPalArray);
-    roll_rgb_palArray (TargetPalArray);
-    disp_setPalette(MainPalArray);
+  maybeInvertSubPalRollDirection();
+  roll_rgb_palArray(MainPalArray);
+  roll_rgb_palArray(TargetPalArray);
+  disp_setPalette(MainPalArray);
 }
 
 /**********************************************************************************/
@@ -116,56 +113,56 @@ void rolNFadMainPalAry2RndTargNLdDAC(uint8_t *MainPalArray,
 	or to the values of another ("target") palette array.
 */
 
-static int fadePalArrayToWhite (uint8_t *palArray)
+static int fadePalArrayToWhite(uint8_t *palArray)
 {
-/* Returns DONE if the entire palette is white, else NOT_DONE */
+  /* Returns DONE if the entire palette is white, else NOT_DONE */
 
-	int palByteNum, num_white = 0;
+  int palByteNum, num_white = 0;
 
-	for (palByteNum = 3; palByteNum < 768; ++palByteNum)
-	{
-		if (palArray[palByteNum] < 63)	/* Increment every color in the palette array until it becomes white.	*/
-			++palArray[palByteNum];
-		else
-			++num_white;
-	}
+  for (palByteNum = 3; palByteNum < 768; ++palByteNum)
+  {
+    if (palArray[palByteNum] < 63) /* Increment every color in the palette array until it becomes white.	*/
+      ++palArray[palByteNum];
+    else
+      ++num_white;
+  }
 
-	return ((num_white >= 765) ? DONE : NOT_DONE);
+  return ((num_white >= 765) ? DONE : NOT_DONE);
 }
 
-static int fadePalArrayToBlack (uint8_t *palArray)
-{	/* Returns DONE if the entire palette is black, else NOT_DONE	 */
-	int palByteNum, num_black = 0;
+static int fadePalArrayToBlack(uint8_t *palArray)
+{ /* Returns DONE if the entire palette is black, else NOT_DONE	 */
+  int palByteNum, num_black = 0;
 
-	for (palByteNum = 3; palByteNum < 768; ++palByteNum)
-	{
-		if (palArray[palByteNum] > 0)		/* Decrement every color in the palette array until it becomes black.	*/
-			--palArray[palByteNum];
-		else
-			++num_black;
-	}
+  for (palByteNum = 3; palByteNum < 768; ++palByteNum)
+  {
+    if (palArray[palByteNum] > 0) /* Decrement every color in the palette array until it becomes black.	*/
+      --palArray[palByteNum];
+    else
+      ++num_black;
+  }
 
-	return ((num_black >= 765) ? DONE : NOT_DONE);
+  return ((num_black >= 765) ? DONE : NOT_DONE);
 }
 
 /* Increments (fades) every color in palArrayBeingChanged closer to the corresponding color in targetPalArray.	*/
 
-static int fadePalArrayToTarget (uint8_t *palArrayBeingChanged,
-                                 uint8_t *targetPalArray)
-{													/* Returns DONE if the two palette arrays are equal, else NOT_DONE.	*/
-	int palByteNum, num_equal = 0;
+static int fadePalArrayToTarget(uint8_t *palArrayBeingChanged,
+                                uint8_t *targetPalArray)
+{ /* Returns DONE if the two palette arrays are equal, else NOT_DONE.	*/
+  int palByteNum, num_equal = 0;
 
-	for (palByteNum = 3; palByteNum < 768; ++palByteNum)
-	{
-		if   (palArrayBeingChanged[palByteNum] < targetPalArray[palByteNum])
-			 ++palArrayBeingChanged[palByteNum];
+  for (palByteNum = 3; palByteNum < 768; ++palByteNum)
+  {
+    if (palArrayBeingChanged[palByteNum] < targetPalArray[palByteNum])
+      ++palArrayBeingChanged[palByteNum];
     else if (palArrayBeingChanged[palByteNum] > targetPalArray[palByteNum])
-			 --palArrayBeingChanged[palByteNum];
-		else
-			++num_equal;
-	}
+      --palArrayBeingChanged[palByteNum];
+    else
+      ++num_equal;
+  }
 
-	return ((num_equal >= 765) ? DONE : NOT_DONE);
+  return ((num_equal >= 765) ? DONE : NOT_DONE);
 }
 
 /**********************************************************************************/
@@ -173,20 +170,20 @@ static int fadePalArrayToTarget (uint8_t *palArrayBeingChanged,
 /* Rolls the R, G, and B components of the palette ONE place in the direction specified by r, g, and b.	*/
 void roll_rgb_palArray(uint8_t *Pal)
 {
-    if (!RedRollDirection)
-         rotateforward(RED,Pal);
-    else
-         rotatebackward(RED,Pal);
+  if (!RedRollDirection)
+    rotateforward(RED, Pal);
+  else
+    rotatebackward(RED, Pal);
 
-    if(!GrnRollDirection)
-         rotateforward(GREEN,Pal);
-    else
-         rotatebackward(GREEN,Pal);
+  if (!GrnRollDirection)
+    rotateforward(GREEN, Pal);
+  else
+    rotatebackward(GREEN, Pal);
 
-    if(!BluRollDirection)
-         rotateforward(BLUE,Pal);
-    else
-         rotatebackward(BLUE,Pal);
+  if (!BluRollDirection)
+    rotateforward(BLUE, Pal);
+  else
+    rotatebackward(BLUE, Pal);
 }
 
 /* This routine switches the current direction of one of the sub-palettes (R, G, or B) with probability
@@ -196,28 +193,31 @@ void roll_rgb_palArray(uint8_t *Pal)
 void maybeInvertSubPalRollDirection(void)
 {
   switch (RANDOM(DIRECTN_CHANGE_PERIOD_IN_TICKS))
-	{
-		case 0 :
-			RedRollDirection = !RedRollDirection;
-		break;
+  {
+  case 0:
+    RedRollDirection = !RedRollDirection;
+    break;
 
-		case 1 :
-			GrnRollDirection = !GrnRollDirection;
-		break;
+  case 1:
+    GrnRollDirection = !GrnRollDirection;
+    break;
 
-		case 2 :
-			BluRollDirection = !BluRollDirection;
-		break;
-	}
+  case 2:
+    BluRollDirection = !BluRollDirection;
+    break;
+  }
 }
 
 void newPalette(void)
 {
   paletteTypeNum = RANDOM(NUM_PALETTE_TYPES + 1);
-  if (paletteTypeNum >= NUM_PALETTE_TYPES) {
+  if (paletteTypeNum >= NUM_PALETTE_TYPES)
+  {
     /* Beginning special morphing palette */
     initPalArray(TargetPalArray, RANDOM(NUM_PALETTE_TYPES));
-  } else {
+  }
+  else
+  {
     /* Fading to specific constant palette */
     initPalArray(TargetPalArray, paletteTypeNum);
     FadeCompleteFlag = FALSE; /* Fade-in needed next */
@@ -229,20 +229,28 @@ void newPalette(void)
  */
 void fadeInAndRotate(void)
 {
-  if (paletteTypeNum == NUM_PALETTE_TYPES) {
-    rolNFadMainPalAry2RndTargNLdDAC(MainPalArray,TargetPalArray);
-  } else if (!FadeCompleteFlag) {
-    rolNFadeMainPalAryToTargNLodDAC(MainPalArray,TargetPalArray);
-  } else {
+  if (paletteTypeNum == NUM_PALETTE_TYPES)
+  {
+    rolNFadMainPalAry2RndTargNLdDAC(MainPalArray, TargetPalArray);
+  }
+  else if (!FadeCompleteFlag)
+  {
+    rolNFadeMainPalAryToTargNLodDAC(MainPalArray, TargetPalArray);
+  }
+  else
+  {
     rollMainPalArrayAndLoadDACRegs(MainPalArray);
   }
 }
 
 void beginFadeOut(int toblack)
 {
-  if (toblack || RANDOM(2) == 0) {
+  if (toblack || RANDOM(2) == 0)
+  {
     fade_dir = 1;
-  } else {
+  }
+  else
+  {
     fade_dir = 0;
   }
   FadeCompleteFlag = 0;
@@ -251,9 +259,12 @@ void beginFadeOut(int toblack)
 /* Returns 1 when faded completely to white or black */
 int fadeOut(void)
 {
-  if (fade_dir) {
+  if (fade_dir)
+  {
     rolNFadeBlkMainPalArrayNLoadDAC(MainPalArray);
-  } else {
+  }
+  else
+  {
     rolNFadeWhtMainPalArrayNLoadDAC(MainPalArray);
   }
   return FadeCompleteFlag;
@@ -270,10 +281,13 @@ void applyPalette(void)
 
 void initRolNFade(int logo)
 {
-  if (logo) {
+  if (logo)
+  {
     initPalArray(MainPalArray, RGBW_LIGHTNING_PAL);
     memcpy(TargetPalArray, MainPalArray, sizeof(TargetPalArray));
-  } else {
+  }
+  else
+  {
     memset(MainPalArray, 0, sizeof(MainPalArray));
   }
   applyPalette();

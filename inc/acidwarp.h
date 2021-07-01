@@ -23,42 +23,38 @@
 
 #define VERSION "Acid Warp Version 4.10 (C)Copyright 1992, 1993 by Noah Spurrier and Mark Bilk\nSDL port by Boris Gjenero based on Linux port by Steven Wills"
 
-#define NUM_IMAGE_FUNCTIONS             40
-#define NOAHS_FACE                      0
-#define DIRECTN_CHANGE_PERIOD_IN_TICKS  256
-#define TIMER_INTERVAL                  (ROTATION_DELAY / 1000)
+#define NUM_IMAGE_FUNCTIONS 40
+#define NOAHS_FACE 0
+#define DIRECTN_CHANGE_PERIOD_IN_TICKS 256
+#define TIMER_INTERVAL (ROTATION_DELAY / 1000)
 
-#ifdef EMSCRIPTEN
-#define ENABLE_WORKER
-#include <emscripten.h>
-#else /* !EMSCRIPTEN */
 /* Full screen doesn't work with Emscripten. Use F11 instead. */
 void timer_quit(void);
 #define HAVE_FULLSCREEN
 #define ENABLE_THREADS
-#endif
 
 /* Palette types  */
-#define RGBW_PAL          	    0
-#define W_PAL                   1
-#define W_HALF_PAL              2
-#define PASTEL_PAL              3
-#define RGBW_LIGHTNING_PAL      4
-#define W_LIGHTNING_PAL         5
-#define W_HALF_LIGHTNING_PAL    6
-#define PASTEL_LIGHTNING_PAL    7
-#define RED    0
-#define GREEN  1
-#define BLUE   2
-#define NUM_PALETTE_TYPES       8
+#define RGBW_PAL 0
+#define W_PAL 1
+#define W_HALF_PAL 2
+#define PASTEL_PAL 3
+#define RGBW_LIGHTNING_PAL 4
+#define W_LIGHTNING_PAL 5
+#define W_HALF_LIGHTNING_PAL 6
+#define PASTEL_LIGHTNING_PAL 7
+#define RED 0
+#define GREEN 1
+#define BLUE 2
+#define NUM_PALETTE_TYPES 8
 
 #define NUM_IMAGE_FUNCTIONS 40
-#define NOAHS_FACE          0
+#define NOAHS_FACE 0
 
 /**
  * @brief Enumerated type for handling command line input
  */
-enum acidwarp_command {
+enum acidwarp_command
+{
   CMD_PAUSE = 1,
   CMD_SKIP,
   CMD_QUIT,
@@ -73,7 +69,8 @@ enum acidwarp_command {
  * @brief structure for holding timer data - defined in @c acidwarp.c
  *
  */
-struct timer_data {
+struct timer_data
+{
   SDL_cond *cond /**asdfasdf*/;
   SDL_mutex *mutex;
   SDL_TimerID timer_id;
@@ -83,12 +80,10 @@ struct timer_data {
 /**
  * @brief asdf
  */
-enum display_state {
+enum display_state
+{
   STATE_INITIAL,
   STATE_NEXT,
-#if defined(EMSCRIPTEN) && defined(ENABLE_WORKER)
-  STATE_WAIT,
-#endif /* EMSCRIPTEN && ENABLE_WORKER */
   STATE_DISPLAY,
   STATE_FADEOUT
 };
@@ -115,14 +110,10 @@ void timer_wait(void);
 void timer_init(void);
 uint32_t timer_proc(uint32_t interval, void *param);
 
-
 void makeShuffledList(int *list, int listSize);
-#ifdef ENABLE_WORKER
-void startloop(void);
-#endif
 
-#define DRAW_LOGO   1
-#define DRAW_FLOAT  2
+#define DRAW_LOGO 1
+#define DRAW_FLOAT 2
 #define DRAW_SCALED 4
 void draw_init(int flags);
 void draw_same(void);

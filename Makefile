@@ -94,8 +94,6 @@ img_int.o: ./src/img_int.c ./inc/acidwarp.h ./inc/lut.h ./src/gen_img.c
 lut.o: ./src/lut.c ./inc/handy.h ./inc/lut.h
 palinit.o: ./src/palinit.c ./inc/acidwarp.h ./inc/palinit.h
 rolnfade.o: ./src/rolnfade.c ./inc/acidwarp.h ./inc/rolnfade.h ./inc/palinit.h ./inc/display.h
-useworker.o: ./src/useworker.c ./inc/bit_map.h ./inc/acidwarp.h ./inc/worker.h ./inc/display.h
-worker.o: ./src/worker.c ./inc/bit_map.h ./inc/acidwarp.h ./inc/worker.h
 ifneq (,$(findstring CYGWIN,$(PLATFORM)))
 acidwarp.ico: acidwarp.png
 	icotool -c -o $@ $^

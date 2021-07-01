@@ -1,3 +1,6 @@
+#ifndef WORKER_H_
+#define WORKER_H_
+
 /**
  * @file emscripten.h
  * @brief Emscripten BS IDGAF.
@@ -13,7 +16,8 @@
 #ifndef __WORKER
 #define __WORKER 1
 
-typedef struct {
+typedef struct
+{
   /* Image which worker should respond with */
   int want;
   /* Image which worker should compute after response */
@@ -25,3 +29,5 @@ typedef struct {
 } worker_param;
 
 #endif /* !__WORKER */
+
+#endif
