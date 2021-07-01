@@ -11,7 +11,7 @@ static void init_test_palArray(uint8_t* palArray);
 /* Initialzes a palette array to one of the palette types      */
 void initPalArray(uint8_t *palArray, int pal_type)
 {
-	TODO: HACK
+	// TODO: HACK
 	init_test_palArray(palArray);
 	return;
 	switch (pal_type)
@@ -53,15 +53,25 @@ void initPalArray(uint8_t *palArray, int pal_type)
 		break;
 	default:
 		init_w_palArray(palArray);
+		add_sparkles_to_palette(palArray, 9);
 		break;
 	}
 }
 
 static void init_test_palArray(uint8_t* palArray)
 {
-	for(int i = 0; i < 256; i ++)
+	for (int palRegNum = 0; palRegNum < 128; ++palRegNum)
 	{
-		palArray[i] = RANDOM(255);
+		palArray[palRegNum * 3] = (uint8_t)palRegNum / 2;
+		palArray[palRegNum * 3 + 1] = (uint8_t)palRegNum / 2;
+		palArray[palRegNum * 3 + 2] = (uint8_t)palRegNum / 2;
+	}
+
+	for (int palRegNum = 128; palRegNum < 256; ++palRegNum)
+	{
+		palArray[palRegNum * 3] = (uint8_t)(255 - palRegNum) / 2;
+		palArray[palRegNum * 3 + 1] = (uint8_t)(255 - palRegNum) / 2;
+		palArray[palRegNum * 3 + 2] = (uint8_t)(255 - palRegNum) / 2;
 	}
 }
 
