@@ -6,10 +6,14 @@ static void init_rgbw_palArray(uint8_t *palArray);
 static void init_w_palArray(uint8_t *palArray);
 static void init_w_half_palArray(uint8_t *palArray);
 static void init_pastel_palArray(uint8_t *palArray);
+static void init_test_palArray(uint8_t* palArray);
 
 /* Initialzes a palette array to one of the palette types      */
 void initPalArray(uint8_t *palArray, int pal_type)
 {
+	TODO: HACK
+	init_test_palArray(palArray);
+	return;
 	switch (pal_type)
 	{
 	case RGBW_PAL:
@@ -50,6 +54,14 @@ void initPalArray(uint8_t *palArray, int pal_type)
 	default:
 		init_w_palArray(palArray);
 		break;
+	}
+}
+
+static void init_test_palArray(uint8_t* palArray)
+{
+	for(int i = 0; i < 256; i ++)
+	{
+		palArray[i] = RANDOM(255);
 	}
 }
 

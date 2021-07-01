@@ -110,6 +110,7 @@ static int drawing_main(void *param)
       displayed_img = draw_img;
       draw_img = imageFuncList[imageFuncListIndex];
     }
+    
   }
   return 0;
 }

@@ -319,10 +319,10 @@ void mainLoop(void)
     /* Fall through */
   case STATE_DISPLAY:
     /* rotate the palette for a while */
-    if (GO)
-    {
+    // if (GO)
+    // {
       fadeInAndRotate();
-    }
+    // }
 
     ltime = time(NULL);
     if (ltime > mtime && !LOCK)
