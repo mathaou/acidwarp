@@ -20,13 +20,13 @@ int fadeOut(void);
 void initRolNFade(int logo);
 void applyPalette(void);
 
-void rolNFadMainPalAry2RndTargNLdDAC(uint8_t *MainPalArray,
-                                     uint8_t *TargetPalArray);
-void rolNFadeMainPalAryToTargNLodDAC(uint8_t *MainPalArray, uint8_t *TargetPalArray);
-void rolNFadeBlkMainPalArrayNLoadDAC(uint8_t *MainPalArray);
-void rolNFadeWhtMainPalArrayNLoadDAC(uint8_t *MainPalArray);
-void rollMainPalArrayAndLoadDACRegs(uint8_t *MainPalArray);
-void rotateforward(int color, uint8_t *Pal);
-void rotatebackward(int color, uint8_t *Pal);
+void rolNFadMainPalAry2RndTargNLdDAC(uint8_t* MainPalArray,
+									 uint8_t* TargetPalArray);
+void rolNFadeMainPalAryToTargNLodDAC(uint8_t* MainPalArray, uint8_t* TargetPalArray);
+void rolNFadeBlkMainPalArrayNLoadDAC(uint8_t* MainPalArray);
+void rolNFadeWhtMainPalArrayNLoadDAC(uint8_t* MainPalArray);
+void rollMainPalArrayAndLoadDACRegs(uint8_t* MainPalArray);
+void rotateforward(int color, uint8_t* Pal);
+void rotatebackward(int color, uint8_t* Pal);
 
 #endif

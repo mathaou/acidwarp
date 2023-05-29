@@ -15,9 +15,9 @@
 
 #include <stdint.h>
 
-void disp_setPalette(unsigned char *palette);
-void disp_beginUpdate(uint8_t **p, unsigned int *pitch,
-                      unsigned int *w, unsigned int *h);
+void disp_setPalette(unsigned char* palette);
+void disp_beginUpdate(uint8_t** p, unsigned int* pitch,
+					  unsigned int* w, unsigned int* h);
 void disp_finishUpdate(void);
 void disp_swapBuffers(void);
 void disp_processInput(void);

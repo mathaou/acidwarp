@@ -7,19 +7,9 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 include_directories("${PROJECT_SOURCE_DIR}")
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    SET(STATIC_DEFAULT ON)
-else(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    SET(STATIC_DEFAULT OFF)
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-
-option(SDL2 "Version of SDL to use (1 or 2)" ON)
-option(GL "Use OpenGL" OFF)
-option(STATIC "Link statically" ${STATIC_DEFAULT})
-
-set(CORE_SOURCES acidwarp.c palinit.c rolnfade.c display.c)
-set(IMGGEN_SOURCES bit_map.c lut.c img_int.c img_float.c)
-set(SOURCES ${CORE_SOURCES} ${IMGGEN_SOURCES} draw.c)
+set(CORE_SOURCES src/acidwarp.c src/palinit.c src/rolnfade.c src/display.c src/handy.c)
+set(IMGGEN_SOURCES src/bit_map.c src/lut.c src/img_int.c src/img_float.c)
+set(SOURCES ${CORE_SOURCES} ${IMGGEN_SOURCES} src/draw.c inc/acidwarp.h inc/bit_map.h inc/display.h inc/handy.h inc/lut.h inc/palinit.h inc/rolnfade.h inc/worker.h)
 
 # Windows icon, built by converting PNG to ICO
 # and then embedding using resource file.
@@ -39,7 +29,7 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 # Icon set via SDL
 find_program(XXD xxd)
 find_program(CONVERT convert)
-# TODO Make sure convert is ImageMagick
+
 if(XXD AND CONVERT)
     add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/acidwarp.rgb
                        COMMAND convert ${CMAKE_SOURCE_DIR}/acidwarp.png -sample 64x64 ${CMAKE_SOURCE_DIR}/acidwarp.rgb
@@ -59,44 +49,10 @@ else(XXD AND CONVERT)
     endif(NOT XXD)
 endif(XXD AND CONVERT)
 
+include_directories("SDL/include")
+
 add_executable(acidwarp ${SOURCES})
 
-if(STATIC)
-    # FIXME depends on GCC
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
-endif(STATIC)
-
-if(GL)
-    if (NOT SDL2)
-        message(FATAL_ERROR "OpenGL only supported with SDL 2." )
-    endif (NOT SDL2)
-    add_definitions(-DWITH_GL)
-    if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-        if(STATIC)
-            add_definitions(-DGLEW_STATIC)
-        endif(STATIC)
-        target_link_libraries(acidwarp glew32 opengl32)
-    else(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-        find_package(OpenGL REQUIRED)
-        target_link_libraries(acidwarp ${OPENGL_gl_LIBRARY})
-    endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-endif(GL)
-
-if(SDL2)
-    # FindSDL2 probably won't be available
-    include(FindPkgConfig)
-    pkg_search_module(SDL REQUIRED sdl2)
-    include_directories(${SDL_INCLUDE_DIRS})
-    if (STATIC)
-        target_link_libraries(acidwarp ${SDL_STATIC_LDFLAGS})
-    else (STATIC)
-        target_link_libraries(acidwarp ${SDL_LDFLAGS})
-    endif (STATIC)
-else(SDL2)
-    find_package(SDL REQUIRED)
-    include_directories(${SDL_INCLUDE_DIR})
-    target_link_libraries(acidwarp ${SDL_LIBRARY})
-endif(SDL2)
-
-# Only needed this in Linux for atan()
-target_link_libraries(acidwarp m)
+target_link_directories(acidwarp PUBLIC "SDL/lib/x64")
+target_link_libraries(acidwarp PUBLIC "SDL2" "SDL2main")
+target_include_directories(acidwarp PUBLIC "SDL/include")

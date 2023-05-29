@@ -4,10 +4,10 @@
  * Ported to SDL by Boris Gjenero
  */
 
-#include "acidwarp.h"
-#include "lut.h"
+#include "inc/acidwarp.h"
+#include "inc/lut.h"
 
-/* Fixed point image generator using lookup tables goes here */
+ /* Fixed point image generator using lookup tables goes here */
 #define mod(x, y) ((x) % (y))
 #define xor(x, y) ((x) ^ (y))
 #include "gen_img.c"

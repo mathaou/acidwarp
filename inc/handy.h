@@ -16,7 +16,7 @@
 #ifndef __HANDY
 #define __HANDY 1
 
-/* Random number stuff that SHOULD have been there */
+ /* Random number stuff that SHOULD have been there */
 #include <time.h>
 #include <stdint.h>
 #include <stdio.h> /* Needed for NULL * */
@@ -35,8 +35,8 @@
 /* Some basic data types */
 typedef enum
 {
-    FALSE,
-    TRUE
+	FALSE,
+	TRUE
 } BOOL;
 
 #define RANDOMIZE() (srand((uint8_t)time((time_t *)NULL)))
@@ -45,7 +45,7 @@ typedef enum
  */
 #define RANDOM(a) (rand() / (RAND_MAX / (a) + 1))
 
-/* Stuff that's already there, but is faster as a MACRO */
+ /* Stuff that's already there, but is faster as a MACRO */
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
@@ -61,7 +61,7 @@ typedef enum
 #define DONE 1
 #define NOT_DONE 0
 
-void makeShuffledList(int *list, int listSize);
+void makeShuffledList(int* list, int listSize);
 
 #endif
 #endif

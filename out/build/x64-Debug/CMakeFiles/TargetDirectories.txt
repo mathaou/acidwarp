@@ -1,0 +1,3 @@
+C:/Users/matth.DESKTOP-I3QBL81/source/repos/acidwarp/out/build/x64-Debug/CMakeFiles/acidwarp.dir
+C:/Users/matth.DESKTOP-I3QBL81/source/repos/acidwarp/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/matth.DESKTOP-I3QBL81/source/repos/acidwarp/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

@@ -14,8 +14,8 @@
  */
 
 #include <string.h>
-#include <SDL-1.2/include/SDL.h>
-#include <SDL-1.2/include/SDL_main.h>
+#include "SDL/include/SDL.h"
+#include "SDL/include/SDL_main.h"
 
 #include "handy.h"
 #include "rolnfade.h"
@@ -28,12 +28,13 @@
 #define DIRECTN_CHANGE_PERIOD_IN_TICKS 256
 #define TIMER_INTERVAL (ROTATION_DELAY / 1000)
 
-/* Full screen doesn't work with Emscripten. Use F11 instead. */
+ /* Full screen doesn't work with Emscripten. Use F11 instead. */
 void timer_quit(void);
 #define HAVE_FULLSCREEN
 #define ENABLE_THREADS
 
 /* Palette types  */
+// ATTENTION CHRIS ATTENTION CHRIS
 #define RGBW_PAL 0
 #define W_PAL 1
 #define W_HALF_PAL 2
@@ -42,10 +43,16 @@ void timer_quit(void);
 #define W_LIGHTNING_PAL 5
 #define W_HALF_LIGHTNING_PAL 6
 #define PASTEL_LIGHTNING_PAL 7
+//#define CHRIS_NEW_PAL 8
+// add new palette numbers above here
+
+#define NUM_PALETTE_TYPES 8 // <-- after adding a palette increment this number
+//#define NUM_PALETTE_TYPES 9 // <-- if using CHRIS_NEW_PAL
+// ATTENTION CHRIS ATTENTION CHRIS
+
 #define RED 0
 #define GREEN 1
 #define BLUE 2
-#define NUM_PALETTE_TYPES 8
 
 #define NUM_IMAGE_FUNCTIONS 40
 #define NOAHS_FACE 0
@@ -55,14 +62,14 @@ void timer_quit(void);
  */
 enum acidwarp_command
 {
-  CMD_PAUSE = 1,
-  CMD_SKIP,
-  CMD_QUIT,
-  CMD_NEWPAL,
-  CMD_LOCK,
-  CMD_PAL_FASTER,
-  CMD_PAL_SLOWER,
-  CMD_RESIZE
+	CMD_PAUSE = 1,
+	CMD_SKIP,
+	CMD_QUIT,
+	CMD_NEWPAL,
+	CMD_LOCK,
+	CMD_PAL_FASTER,
+	CMD_PAL_SLOWER,
+	CMD_RESIZE
 };
 
 /**
@@ -71,10 +78,10 @@ enum acidwarp_command
  */
 struct timer_data
 {
-  SDL_cond *cond /**asdfasdf*/;
-  SDL_mutex *mutex;
-  SDL_TimerID timer_id;
-  SDL_bool flag;
+	SDL_cond* cond /**asdfasdf*/;
+	SDL_mutex* mutex;
+	SDL_TimerID timer_id;
+	SDL_bool flag;
 };
 
 /**
@@ -82,35 +89,35 @@ struct timer_data
  */
 enum display_state
 {
-  STATE_INITIAL,
-  STATE_NEXT,
-  STATE_DISPLAY,
-  STATE_FADEOUT
+	STATE_INITIAL,
+	STATE_NEXT,
+	STATE_DISPLAY,
+	STATE_FADEOUT
 };
 
 /* Prototypes for forward referenced functions */
-void printStrArray(char *strArray[]);
-void commandline(int argc, char *argv[]);
+void printStrArray(char* strArray[]);
+void commandline(int argc, char* argv[]);
 void mainLoop(void);
 void handleinput(enum acidwarp_command cmd);
-void generate_image_float(int imageFuncNum, uint8_t *buf_graf,
-                          int xcenter, int ycenter,
-                          int width, int height,
-                          int colors, int pitch, int normalize);
-void generate_image(int imageFuncNum, uint8_t *buf_graf,
-                    int xcenter, int ycenter,
-                    int width, int height,
-                    int colors, int pitch);
-void fatalSDLError(const char *msg);
+void generate_image_float(int imageFuncNum, uint8_t* buf_graf,
+						  int xcenter, int ycenter,
+						  int width, int height,
+						  int colors, int pitch, int normalize);
+void generate_image(int imageFuncNum, uint8_t* buf_graf,
+					int xcenter, int ycenter,
+					int width, int height,
+					int colors, int pitch);
+void fatalSDLError(const char* msg);
 void quit(int retcode);
 
 void timer_lock(void);
 void timer_unlock(void);
 void timer_wait(void);
 void timer_init(void);
-uint32_t timer_proc(uint32_t interval, void *param);
+uint32_t timer_proc(uint32_t interval, void* param);
 
-void makeShuffledList(int *list, int listSize);
+void makeShuffledList(int* list, int listSize);
 
 #define DRAW_LOGO 1
 #define DRAW_FLOAT 2

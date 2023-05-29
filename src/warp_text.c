@@ -2,9 +2,9 @@
  * project description. It's a long text.
  */
 
-/************************************************************************************/
+ /************************************************************************************/
 
-char *Command_summary_string[] =
+char* Command_summary_string[] =
 {
 	"\n\n*** SUMMARY OF OPTIONS ***\n",
 	"\n All options should be preceded with a - (dash). \n",
@@ -25,7 +25,7 @@ char *Command_summary_string[] =
 
 /************************************************************************************/
 
-char *Help_string[] =
+char* Help_string[] =
 {
 	"\n",
 	"                           WHAT IS ACID WARP ?\n",
@@ -65,9 +65,9 @@ char *Help_string[] =
 	"\n",
 	"'o' - Option for using original image generator without floating\n",
 	"      point computation or scaling. It is much faster.\n",
-        "\n",
-        "'s' - Speed. This option controls the speed at which the palettes rotate. \n",
-        "\n",      
+		"\n",
+		"'s' - Speed. This option controls the speed at which the palettes rotate. \n",
+		"\n",
 	"'w' - Option to print \"The Warper\" text file\n",
 	"      It is possible to take the pictures from Acid Warp and project them\n",
 	"      onto a wall or movie screen using a very simple and inexpensive setup\n",
@@ -85,7 +85,7 @@ char *Help_string[] =
 
 /************************************************************************************/
 
-char *The_warper_string[] =
+char* The_warper_string[] =
 {
 	"\n",
 	"                          #######   #        #\n",

@@ -13,6 +13,6 @@
  * Organized by Matt Farstad
  */
 
-void initPalArray(uint8_t *palArray, int pal_type);
+void initPalArray(uint8_t* palArray, int pal_type);
 
 #endif

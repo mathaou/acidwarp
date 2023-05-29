@@ -1,5 +1,5 @@
-#include "handy.h"
-#include "lut.h"
+#include "inc/handy.h"
+#include "inc/lut.h"
 
 /* lut.c this code (c)Copyright 1992 by Noah Spurrier */
 
@@ -19,9 +19,9 @@ using these funcions.
 #define SIN_TABLE_SIZE      1024
 #define FRAME_SIZE          1023
 
-static int Sin_Table [SIN_TABLE_SIZE] =
+static int Sin_Table[SIN_TABLE_SIZE] =
 {
-    0,    3,    6,    9,   13,   16,   19,   22,
+	0,    3,    6,    9,   13,   16,   19,   22,
    25,   28,   31,   34,   38,   41,   44,   47,
    50,   53,   56,   59,   63,   66,   69,   72,
    75,   78,   81,   84,   87,   91,   94,   97,
@@ -151,17 +151,17 @@ static int Sin_Table [SIN_TABLE_SIZE] =
   -22,  -19,  -16,  -13,   -9,   -6,   -3,    0,
 };
 
-long lut_sin (long angle)
+long lut_sin(long angle)
 {
-  if (angle < 0)
-    angle = -angle + ANGLE_UNIT_HALF;
+	if( angle < 0 )
+		angle = -angle + ANGLE_UNIT_HALF;
 
-  angle %= ANGLE_UNIT;
+	angle %= ANGLE_UNIT;
 
-  return (long)Sin_Table [angle * 4];
+	return (long) Sin_Table[angle * 4];
 }
 
-static int Frame_Edge_Angle [FRAME_SIZE + 1] =
+static int Frame_Edge_Angle[FRAME_SIZE + 1] =
 {
    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -268,7 +268,7 @@ static int Frame_Edge_Angle [FRAME_SIZE + 1] =
   31,  31,  31,  31
 }; /* End Frame_Edge_Angle[] */
 
-static int Frame_Edge_Distance [FRAME_SIZE + 1] =
+static int Frame_Edge_Distance[FRAME_SIZE + 1] =
 {
   1024,1024,1024,1024,1024,1024,1024,1024,1024,1024,
   1024,1024,1024,1024,1024,1024,1024,1024,1024,1024,
@@ -377,73 +377,73 @@ static int Frame_Edge_Distance [FRAME_SIZE + 1] =
 
 long lut_angle(long x, long y)
 {
-  int quadrant;
-  long angle;
-  long swap;
+	int quadrant;
+	long angle;
+	long swap;
 
-  /* Get and preserve quadrant info before we convert everything into
-     quadrant one for processing.
-   */
-  quadrant = 1;
-  if ((x * y) > 0)
-  {
-    if (x < 0)
-    {
-      quadrant = 3;
-      x = -x;
-      y = -y;
-    }
-  }
-  else
-  {
-    if (x < 0)
-    {
-      quadrant = 2;
-      swap = -x;
-      x = y;
-      y = swap;
-    }
-    if (y < 0)
-    {
-      quadrant = 4;
-      swap = -y;
-      y = x;
-      x = swap;
-    }
-  }
+	/* Get and preserve quadrant info before we convert everything into
+	   quadrant one for processing.
+	 */
+	quadrant = 1;
+	if( (x * y) > 0 )
+	{
+		if( x < 0 )
+		{
+			quadrant = 3;
+			x = -x;
+			y = -y;
+		}
+	}
+	else
+	{
+		if( x < 0 )
+		{
+			quadrant = 2;
+			swap = -x;
+			x = y;
+			y = swap;
+		}
+		if( y < 0 )
+		{
+			quadrant = 4;
+			swap = -y;
+			y = x;
+			x = swap;
+		}
+	}
 
-  if (x < y)
-  {
-    if (y)
-      angle = ANGLE_UNIT_QUART - Frame_Edge_Angle[FRAME_SIZE * x / y] - 1;
-    else
-      angle = ANGLE_UNIT_QUART;
-  }
-  else
-  {
-    if (x)
-      angle = Frame_Edge_Angle[FRAME_SIZE * y / x];
-    else
-      angle = 0;
-  }
+	if( x < y )
+	{
+		if( y )
+			angle = ANGLE_UNIT_QUART - Frame_Edge_Angle[FRAME_SIZE * x / y] - 1;
+		else
+			angle = ANGLE_UNIT_QUART;
+	}
+	else
+	{
+		if( x )
+			angle = Frame_Edge_Angle[FRAME_SIZE * y / x];
+		else
+			angle = 0;
+	}
 
-  /* Now put the angle back in the proper quadrant */
-  switch (quadrant)
-  {
-  case 1:
-    return angle;
+	/* Now put the angle back in the proper quadrant */
+	switch( quadrant )
+	{
+		case 1:
+			return angle;
 
-  case 2:
-    return angle + ANGLE_UNIT_QUART;
+		case 2:
+			return angle + ANGLE_UNIT_QUART;
 
-  case 3:
-    return angle + ANGLE_UNIT_HALF;
+		case 3:
+			return angle + ANGLE_UNIT_HALF;
 
-  case 4:
-    return angle + ANGLE_UNIT_THREE_QUARTERS;
-  }
+		case 4:
+			return angle + ANGLE_UNIT_THREE_QUARTERS;
+	}
 
-  return -1;
+	return -1;
 } /* End lut_angle() */
 
 /* Finds the distance between two points; the (0,0) and (x,y)
@@ -456,12 +456,12 @@ long lut_angle(long x, long y)
  distance of x,y from the origin. I.e. the ratio of the frame intersection
  distance to the size of the frame EQUALS the ratio of the x,y distance to
  y. Multiply by y to get x,y distance.
-                                                   _________. intersection
-                                                  |        /|
-     FrameIntrsctDist        Dist(x,y)            |  x,y./  |
-    ------------------  ==  -----------           |    /|   |
-       FRAME_SIZE               y                 |  /  |   |
-                                                  |/____|___|
+												   _________. intersection
+												  |        /|
+	 FrameIntrsctDist        Dist(x,y)            |  x,y./  |
+	------------------  ==  -----------           |    /|   |
+	   FRAME_SIZE               y                 |  /  |   |
+												  |/____|___|
 
  The usual formula from high school is (sqrt(x^2 + y^2)). This is slower.
  Requires doubles. And requires linking math library.
@@ -473,19 +473,19 @@ long lut_angle(long x, long y)
 
 long lut_dist(long x, long y)
 {
-  x = ABS(x);
-  y = ABS(y); /* Keep it in the first quadrant. */
+	x = ABS(x);
+	y = ABS(y); /* Keep it in the first quadrant. */
 
-  if (y == 0)
-    return x; /* Simple cases. Also avoid division by zero. */
-  if (x == 0)
-    return y;
+	if( y == 0 )
+		return x; /* Simple cases. Also avoid division by zero. */
+	if( x == 0 )
+		return y;
 
-  /* Is the Intersection with top or with the side of the Frame? */
-  if (x < y)
-    return Frame_Edge_Distance[FRAME_SIZE * x / y] * y / FRAME_SIZE;
-  else
-    return Frame_Edge_Distance[FRAME_SIZE * y / x] * x / FRAME_SIZE;
+	/* Is the Intersection with top or with the side of the Frame? */
+	if( x < y )
+		return Frame_Edge_Distance[FRAME_SIZE * x / y] * y / FRAME_SIZE;
+	else
+		return Frame_Edge_Distance[FRAME_SIZE * y / x] * x / FRAME_SIZE;
 } /* End lut_dist() */
 
 /* Many tables are hashed. Some tables are split into two parts to
@@ -496,11 +496,11 @@ long lut_dist(long x, long y)
  * and I used a small low accuracy table for areas where the slope of
  * a graph is small.
  */
-/* These coorespond to half of 320 and 200 plus one for fencepost
- * correction. The MCGA screen is 320x200 with 256 colors, so
- * many of these functions are optimised strictly for that screen size.
- * lut_angle() and lut_dist() are two that would require extensive
- * rewriting to make work on a non 320x200 screen
- */
+ /* These coorespond to half of 320 and 200 plus one for fencepost
+  * correction. The MCGA screen is 320x200 with 256 colors, so
+  * many of these functions are optimised strictly for that screen size.
+  * lut_angle() and lut_dist() are two that would require extensive
+  * rewriting to make work on a non 320x200 screen
+  */
 #define HMAX 161
 #define VMAX 101

@@ -18,7 +18,7 @@
 
 #define TRIG_UNIT 511
 #define ANGLE_UNIT 256
-/* The same idea as 2*PI, PI/2, PI/4, etc. */
+ /* The same idea as 2*PI, PI/2, PI/4, etc. */
 #define ANGLE_UNIT_2 (ANGLE_UNIT * 2)
 #define ANGLE_UNIT_HALF (ANGLE_UNIT / 2)
 #define ANGLE_UNIT_EIGHTH (ANGLE_UNIT / 8)
